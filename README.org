@@ -1,0 +1,52 @@
+#+title: Image docker pour build qt6 statique avec mxe (x86_64)
+#+toc: nil
+** Comment arriver à ce résultat
+*** Source officielle
+Le projet mxe a un site qui explique les pré-requis pour build mxe
+avec les différentes options/commandes et autre. Vous trouvez les
+pré-requis spécifiques à votre distribution [[https://mxe.cc/#requirements][ici]].
+
+À savoir que la version qui est faite ici est basée sur *Ubuntu 24.04*
+(pour le moment) <2024-10-08 mar>. Les pré-requis affichés sur le site
+ne sont pas forcément mis à jour.
+*** Inspiration
+Je suis tombé sur ce projet: https://github.com/fffaraz/docker-qt, qui
+m'a permis d'identifier que certaines dépendances manquaient, à la
+base j'hésitais à forker son projet pour simplement corriger les
+dépendances qui manquaient mais je n'avais pas besoin du
+"/multi-arch/" (et des autres problèmes que ça impliquait).
+*** Complications
+Je voulais simplifier le build system en passant sur une image alpine
+mais malheureusement il reste des problèmes avec certaines
+dépendances. Si j'ai plus de temps à allouer à ce projet, je
+retenterais le coup.
+*** Ajout de fonctionnalités
+J'ai ajouté l'utilisation de variable d'environnement (d'une manière
+assez /raw/ mais c'était la façon la plus "compréhensible"), ne
+surtout pas regarder les variable dans le Dockerfile ^^. En gros dans
+le cli pas besoin d'échapper les guillemets, si les variables sont
+prises correctement vous verrez le nom de la custom font dans le build
+message.
+** Comment build statiquement son programme
+Depuis le dossier de votre projet, exécuter la commande suivante: 
+#+begin_src bash
+  docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf mxe4qt:0.3
+#+end_src
+
+De même pour chaque variable nécessaire: 
+#+begin_src bash
+  docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf \
+         -e USER_DATA_PATH="C:/Example" \
+         -e DEFAULT_JSON_PATH="example.json" \
+         -e CUSTOM_DATA_PATH="C:/Example" \
+         mxe4qt:0.3
+#+end_src
+** Pour chaque grosse mise à jour
+Pour chaque grosse mise à jour ne pas oublier d'update le docker en le
+rebuildant (il cherche automatiquement la mise à jour pour ubuntu et
+mxe).
+
+Ubuntu est en version LTS dans ce docker mais il faudra
+potentiellement upgrade la version vers une version plus récente si le
+build tient plus de 3 ans ne serait-ce que si le mxe demande des
+dépendances très à jour (toujours en LTS).
