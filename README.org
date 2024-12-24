@@ -30,7 +30,7 @@ message.
 ** Comment build statiquement son programme
 Depuis le dossier de votre projet (sa racine), exécuter la commande suivante: 
 #+begin_src bash
-  docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf mxe4qt:0.3
+  docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf spsltic/mxe4qt:latest
 #+end_src
 
 De même pour chaque variable nécessaire sur linux avec bash: 
