@@ -28,18 +28,23 @@ le cli pas besoin d'échapper les guillemets, si les variables sont
 prises correctement vous verrez le nom de la custom font dans le build
 message.
 ** Comment build statiquement son programme
-Depuis le dossier de votre projet, exécuter la commande suivante: 
+Depuis le dossier de votre projet (sa racine), exécuter la commande suivante: 
 #+begin_src bash
   docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf mxe4qt:0.3
 #+end_src
 
-De même pour chaque variable nécessaire: 
+De même pour chaque variable nécessaire sur linux avec bash: 
 #+begin_src bash
   docker run -v $(pwd):/app -e CUSTOM_FONT=font.ttf \
          -e USER_DATA_PATH="C:/Example" \
          -e DEFAULT_JSON_PATH="example.json" \
          -e CUSTOM_DATA_PATH="C:/Example" \
-         mxe4qt:0.3
+         spsltic/mxe4qt:latest
+#+end_src
+
+De même sur windows avec powershell:
+#+begin_src powershell
+  docker run -v ${PWD}:/app -e CUSTOM_FONT=font.ttf -e USER_DATA_PATH="C:/Example" -e DEFAULT_JSON_PATH="default.json" -e CUSTOM_DATA_PATH="C:/Example" spsltic/mxe4qt:latest
 #+end_src
 ** Pour chaque grosse mise à jour
 Pour chaque grosse mise à jour ne pas oublier d'update le docker en le
